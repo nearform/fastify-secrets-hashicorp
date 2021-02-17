@@ -8,18 +8,14 @@ class Stub {
   read() {}
 }
 
-const readPromise = sinon.stub()
-
-const read = sinon.stub(Stub.prototype, 'read').returns({
-  promise: readPromise
-})
+const read = sinon.stub(Stub.prototype, 'read')
 
 const VaultClient = proxyquire('../lib/client', {
   'node-vault': () => new Stub()
 })
 
 beforeEach(async () => {
-  readPromise.reset()
+  read.resolves()
 })
 
 test('get', (t) => {
@@ -29,7 +25,11 @@ test('get', (t) => {
     t.plan(3)
 
     const client = new VaultClient()
-    readPromise.resolves('secret payload')
+    read.resolves({
+      data: {
+        value: 'secret payload'
+      }
+    })
 
     const secret = await client.get('secret/name')
 
@@ -42,7 +42,7 @@ test('get', (t) => {
     t.plan(1)
     const client = new VaultClient()
 
-    readPromise.rejects(new Error())
+    read.rejects(new Error())
 
     const promise = client.get('secret/name')
 
