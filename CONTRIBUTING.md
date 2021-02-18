@@ -35,7 +35,7 @@ Open a new terminal window, then run
 vault server -dev
 ```
 
-Make a note of the Root Token and then run the tests as follows
+Make a note of the Root Token (or set it in advance using [VAULT_DEV_ROOT_TOKEN_ID](https://www.vaultproject.io/docs/commands/server#dev-options)) and then run the tests as follows:
 
 ```sh
 VAULT_TOKEN=<Root Token> npm test
