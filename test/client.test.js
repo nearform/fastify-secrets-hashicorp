@@ -24,17 +24,17 @@ test('get', (t) => {
   t.test('read', async (t) => {
     t.plan(3)
 
-    const client = new VaultClient()
+    const client = new VaultClient({ mountPoint: 'unit-test-secrets' })
     read.resolves({
       data: {
         value: 'secret payload'
       }
     })
 
-    const secret = await client.get('secret/name')
+    const secret = await client.get('name')
 
     t.ok(read.called, 'calls read')
-    t.ok(read.calledWith('secret/name'), 'provides name to read')
+    t.ok(read.calledWith('unit-test-secrets/name'), 'provides name to read')
     t.equal(secret, 'secret payload', 'extracts SecretString')
   })
 
@@ -44,7 +44,7 @@ test('get', (t) => {
 
     read.rejects(new Error())
 
-    const promise = client.get('secret/name')
+    const promise = client.get('unit-test-secrets/name')
 
     await t.rejects(promise, 'throws error')
   })
