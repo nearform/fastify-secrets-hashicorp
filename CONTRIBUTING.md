@@ -1,4 +1,4 @@
-# Welcome to Fastify Secrets Vault
+# Welcome to Fastify Secrets HashiCorp
 
 ## For Developers
 

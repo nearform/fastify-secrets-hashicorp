@@ -10,7 +10,7 @@ class Stub {
 
 const read = sinon.stub(Stub.prototype, 'read')
 
-const VaultClient = proxyquire('../lib/client', {
+const HashiCorpClient = proxyquire('../lib/client', {
   'node-vault': () => new Stub()
 })
 
@@ -24,7 +24,7 @@ test('get', (t) => {
   t.test('read', async (t) => {
     t.plan(3)
 
-    const client = new VaultClient({ mountPoint: 'unit-test-secrets' })
+    const client = new HashiCorpClient({ mountPoint: 'unit-test-secrets' })
     read.resolves({
       data: {
         value: 'secret payload'
@@ -40,7 +40,7 @@ test('get', (t) => {
 
   t.test('sdk error', async (t) => {
     t.plan(1)
-    const client = new VaultClient()
+    const client = new HashiCorpClient()
 
     read.rejects(new Error())
 

@@ -5,7 +5,7 @@ const uuid = require('uuid')
 const Fastify = require('fastify')
 const nodeVault = require('node-vault')
 
-const FastifySecretsVault = require('../')
+const FastifySecretsHashiCorp = require('../lib/fastify-secrets-hashicorp')
 
 const SECRET_NAME = uuid.v4()
 const SECRET_CONTENT = uuid.v4()
@@ -29,7 +29,7 @@ test('integration', async (t) => {
     logger: process.env.TEST_LOGGER || false
   })
 
-  fastify.register(FastifySecretsVault, {
+  fastify.register(FastifySecretsHashiCorp, {
     secrets: {
       test: SECRET_NAME
     },
