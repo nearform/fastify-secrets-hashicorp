@@ -7,23 +7,23 @@ const nodeVault = require('node-vault')
 
 const FastifySecretsVault = require('../')
 
-const SECRET_NAME = `secret/helloworld`
+const SECRET_NAME = uuid.v4()
 const SECRET_CONTENT = uuid.v4()
-
 const vault = nodeVault()
 
-async function createSecret() {
-  return await vault.write(SECRET_NAME, { value: SECRET_CONTENT, lease: '1s' })
+async function setup() {
+  await vault.mount({ mount_point: 'fastify-integration-test', type: 'kv', options: { version: 1 } })
+  await vault.write(`fastify-integration-test/${SECRET_NAME}`, { value: SECRET_CONTENT, lease: '1s' })
 }
 
-teardown(function deleteSecret() {
-  return vault.delete(SECRET_NAME)
+teardown(async () => {
+  await vault.delete(`fastify-integration-test/${SECRET_NAME}`)
+  await vault.unmount({ mount_point: 'fastify-integration-test' })
 })
 
 test('integration', async (t) => {
   t.plan(1)
-
-  await createSecret()
+  await setup()
 
   const fastify = Fastify({
     logger: process.env.TEST_LOGGER || false
@@ -32,6 +32,12 @@ test('integration', async (t) => {
   fastify.register(FastifySecretsVault, {
     secrets: {
       test: SECRET_NAME
+    },
+    clientOptions: {
+      vaultOptions: {
+        endpoint: 'http://127.0.0.1:8200'
+      },
+      mountPoint: 'fastify-integration-test'
     }
   })
 
