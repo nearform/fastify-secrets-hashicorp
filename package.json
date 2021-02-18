@@ -1,8 +1,8 @@
 {
-  "name": "fastify-secrets-vault",
+  "name": "fastify-secrets-hashicorp",
   "version": "0.0.1",
-  "description": "Fastify secrets plugin for Vault",
-  "main": "lib/fastify-secrets-vault.js",
+  "description": "Fastify secrets plugin for HashiCorp Vault",
+  "main": "lib/fastify-secrets-hashicorp.js",
   "scripts": {
     "lint": "eslint lib/**/*.js test/**/*.js",
     "lint:fix": "npm run lint -- --fix",
@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nearform/fastify-secrets-vault.git"
+    "url": "git+https://github.com/nearform/fastify-secrets-hashicorp.git"
   },
   "author": "Alasdair McLeay <alasdair.mcleay@nearform.com>",
   "license": "Apache-2.0",
@@ -21,9 +21,9 @@
     "secrets"
   ],
   "bugs": {
-    "url": "https://github.com/nearform/fastify-secrets-vault/issues"
+    "url": "https://github.com/nearform/fastify-secrets-hashicorp/issues"
   },
-  "homepage": "https://github.com/nearform/fastify-secrets-vault#readme",
+  "homepage": "https://github.com/nearform/fastify-secrets-hashicorp#readme",
   "engines": {
     "node": ">= 12.13.0"
   },

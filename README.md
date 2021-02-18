@@ -1,4 +1,4 @@
-# Fastify Secrets Vault
+# Fastify Secrets HashiCorp
 
 WIP
 
@@ -7,7 +7,7 @@ WIP
 Example usage:
 
 ```js
-fastify.register(FastifySecretsVault, {
+fastify.register(FastifySecretsHashiCorp, {
   secrets: {
     test: SECRET_NAME
   },
