@@ -7,6 +7,14 @@ jobs:
     strategy:
       matrix:
         node-version: [12.x, 14.x]
+    services:
+      vault:
+        image: vault:1.6.2
+        env: 
+          SKIP_SETCAP: true
+          VAULT_DEV_ROOT_TOKEN_ID: mytoken
+        ports:
+        - 8200:8200
     steps:
       - name: Checkout
         uses: actions/checkout@v1
@@ -24,6 +32,8 @@ jobs:
       - name: Lint
         run: npm run lint
       - name: Run Tests
+        env: 
+          VAULT_TOKEN: mytoken
         run: npm run test:ci
 
   automerge:

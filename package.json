@@ -8,7 +8,7 @@
     "lint:fix": "npm run lint -- --fix",
     "lint:staged": "lint-staged",
     "test": "tap --reporter=spec --coverage-report=html --coverage-report=text --100 --no-browser test/*.test.js test/**/*.test.js",
-    "test:ci": "tap --no-color --reporter=spec --coverage-report=json --coverage-report=text --100 test/client.test.js test/**/client.test.js"
+    "test:ci": "tap --no-color --reporter=spec --coverage-report=json --coverage-report=text --100 test/*.test.js test/**/*.test.js"
   },
   "repository": {
     "type": "git",
