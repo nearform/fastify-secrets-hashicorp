@@ -1,10 +1,18 @@
 # Fastify Secrets HashiCorp
 
-WIP
+![CI](https://github.com/nearform/fastify-secrets-hashicorp/workflows/CI/badge.svg)
+
+Fastify secrets plugin for [HashiCorp Vault](https://www.vaultproject.io).
+
+## Installation
+
+```sh
+npm install --save fastify-secrets-hashicorp
+```
 
 ## Usage
 
-Example usage:
+### Add plugin to your fastify instance
 
 ```js
 fastify.register(FastifySecretsHashiCorp, {
@@ -21,7 +29,17 @@ fastify.register(FastifySecretsHashiCorp, {
 })
 ```
 
-### Options
+See Options
+
+### Access you secrets
+
+```js
+await fastify.ready()
+
+console.log(fastify.secrets.dbPassword) // content of 'secret-name'
+```
+
+### Plugin options
 
 Following the structure
 
@@ -59,9 +77,10 @@ VAULT_ADDR='http://127.0.0.1:8200' vault secrets disable secret
 VAULT_ADDR='http://127.0.0.1:8200' vault secrets enable -version=1 -path=secret kv
 ```
 
-## TODO
+## Contributing
 
-- Integration test for vault being sealed
-- GitHub workflows
-- Dependabot config
-- Publish to npm
+See [CONTRIBUTING.md](./CONTRIBUTING.md)
+
+## License
+
+Copyright NearForm Ltd 2021. Licensed under the [Apache-2.0 license](http://www.apache.org/licenses/LICENSE-2.0).
