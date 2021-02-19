@@ -62,7 +62,7 @@ The [path to the secrets engine](https://www.vaultproject.io/docs/secrets#secret
 
 #### clientOptions.vaultOptions
 
-Initialisation options that are sent to [node-vault](https://github.com/kr1sp1n/node-vault), typed as [VaultOptions](https://github.com/kr1sp1n/node-vault/blob/master/index.d.ts#L115).
+Initialisation options that are sent to [node-vault](https://github.com/kr1sp1n/node-vault), typed as [VaultOptions](https://github.com/kr1sp1n/node-vault/blob/70097269d35a58bb560b5290190093def96c87b1/index.d.ts#L115-L130).
 
 The most important being:
 
