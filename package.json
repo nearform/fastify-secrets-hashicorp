@@ -4,7 +4,7 @@
   "description": "Fastify secrets plugin for HashiCorp Vault",
   "main": "lib/fastify-secrets-hashicorp.js",
   "scripts": {
-    "lint": "eslint lib/**/*.js test/**/*.js",
+    "lint": "eslint lib test",
     "lint:fix": "npm run lint -- --fix",
     "lint:staged": "lint-staged",
     "test": "tap --reporter=spec --coverage-report=html --coverage-report=text --100 --no-browser test/*.test.js test/**/*.test.js",
