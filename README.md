@@ -39,8 +39,7 @@ fastify.register(FastifySecretsHashiCorp, {
   secrets: {
     dbPassword: 'secret-name'
   },
-  clientOptions: {
-  }
+  clientOptions: {}
 })
 ```
 
@@ -49,7 +48,7 @@ Following the structure
 ```js
 clientOptions: {
     vaultOptions: {
-      token: '', 
+      token: '',
       endpoint: ''
     },
     mountPoint, ''
@@ -73,9 +72,9 @@ The most important being:
 
 - The vault is unsealed
 - The secrets engine is [kv-v1](https://www.vaultproject.io/docs/secrets/kv/kv-v1)
- (see below)
-- VAULT_TOKEN is available as an environment variable, or passed in to clientOptions.vaultOptions.token
-- VAULT_ADDR is available as an environment variable, or passed in to clientOptions.vaultOptions.endpoint
+  (see below)
+- clientOptions.vaultOptions.token is provided as an option, or VAULT_TOKEN is available as an environment variable
+- clientOptions.vaultOptions.endpoint is provided as an option, or VAULT_ADDR is available as an environment variable
 
 ### Secrets Engine
 
