@@ -18,7 +18,11 @@
   "license": "Apache-2.0",
   "keywords": [
     "fastify",
-    "secrets"
+    "secrets",
+    "hashicorp",
+    "vault",
+    "sensitive",
+    "encryption"
   ],
   "bugs": {
     "url": "https://github.com/nearform/fastify-secrets-hashicorp/issues"
