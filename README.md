@@ -70,15 +70,14 @@ The most important being:
 
 ### Assumptions
 
-- The vault is unsealed
-- The secrets engine is [kv-v1](https://www.vaultproject.io/docs/secrets/kv/kv-v1)
-  (see below)
+- A vault server is running and [has been unsealed](https://www.vaultproject.io/docs/concepts/seal)
+- A secrets engine is available at `secrets/` (or at the provided mountPoint in options) and us using [KV Secrets Engine - Version 1](https://www.vaultproject.io/docs/secrets/kv/kv-v1)
 - clientOptions.vaultOptions.token is provided as an option, or VAULT_TOKEN is available as an environment variable
 - clientOptions.vaultOptions.endpoint is provided as an option, or VAULT_ADDR is available as an environment variable
 
 ### Secrets Engine
 
-We assume that the kv-v1 secrets engine is being used. If vault is started in dev mode (`vault server -dev`) it defaults to the kv-v2 engine, mounted at `secrets/`. In order to use the dev server, we need to remove it and mount a kv-v1 secrets provider instead:
+We assume that the [kv-v1](https://www.vaultproject.io/docs/secrets/kv/kv-v1) secrets engine is being used. If vault is started in dev mode (`vault server -dev`) it defaults to the kv-v2 engine, mounted at `secrets/`. In order to use the dev server, we need to remove it and mount a kv-v1 secrets provider instead:
 
 ```sh
 VAULT_ADDR='http://127.0.0.1:8200' vault secrets disable secret
