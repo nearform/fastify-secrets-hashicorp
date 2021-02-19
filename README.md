@@ -21,7 +21,10 @@ const fastify = Fastify()
 // Add plugin to your fastify instance
 fastify.register(FastifySecretsHashiCorp, {
   secrets: {
-    dbPassword: 'secret-name'
+    dbPassword: {
+      name: 'secret-name',
+      key: 'value'
+    }
   },
   clientOptions: {
     vaultOptions: {
@@ -40,27 +43,30 @@ fastify.ready().then(() => {
 
 ### Plugin options
 
-The plugin can be initialised with clientOptions as follows:
+Assuming a secret has been written [using the vault CLI](https://www.vaultproject.io/docs/commands/write#examples) like this:
+
+```sh
+VAULT_ADDR='http://127.0.0.1:8200' vault write myproject/database password=mysecret
+```
+
+The plugin can be initialised to read this secret as follows:
 
 ```js
 fastify.register(FastifySecretsHashiCorp, {
   secrets: {
-    dbPassword: 'secret-name'
+    dbPassword: {
+      name: 'database',
+      key: 'password'
+    }
   },
-  clientOptions: {}
+  clientOptions: {
+    vaultOptions: {
+      token: '<TOKEN>',
+      endpoint: 'http://127.0.0.1:8200'
+    },
+    mountPoint: 'myproject'
+  }
 })
-```
-
-Following the structure
-
-```js
-clientOptions: {
-  vaultOptions: {
-    token: '',
-    endpoint: ''
-  },
-  mountPoint: ''
-}
 ```
 
 #### clientOptions.mountPoint

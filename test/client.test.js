@@ -31,7 +31,7 @@ test('get', (t) => {
       }
     })
 
-    const secret = await client.get('name')
+    const secret = await client.get({ name: 'name', key: 'value' })
 
     t.ok(read.called, 'calls read')
     t.ok(read.calledWith('unit-test-secrets/name'), 'provides name to read')

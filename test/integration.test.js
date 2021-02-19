@@ -7,6 +7,7 @@ const nodeVault = require('node-vault')
 
 const FastifySecretsHashiCorp = require('..')
 
+const SECRET_KEY = 'exampleKey'
 const SECRET_NAME = uuid.v4()
 const SECRET_CONTENT = uuid.v4()
 const MOUNT_POINT = 'fastify-integration-test'
@@ -14,7 +15,7 @@ const vault = nodeVault()
 
 async function setup() {
   await vault.mount({ mount_point: MOUNT_POINT, type: 'kv', options: { version: 1 } })
-  await vault.write(`${MOUNT_POINT}/${SECRET_NAME}`, { value: SECRET_CONTENT, lease: '1s' })
+  await vault.write(`${MOUNT_POINT}/${SECRET_NAME}`, { [SECRET_KEY]: SECRET_CONTENT })
 }
 
 teardown(async () => {
@@ -32,7 +33,10 @@ test('integration', async (t) => {
 
   fastify.register(FastifySecretsHashiCorp, {
     secrets: {
-      test: SECRET_NAME
+      test: {
+        name: SECRET_NAME,
+        key: SECRET_KEY
+      }
     },
     clientOptions: {
       vaultOptions: {
