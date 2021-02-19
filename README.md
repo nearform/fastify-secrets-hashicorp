@@ -2,7 +2,7 @@
 
 ![CI](https://github.com/nearform/fastify-secrets-hashicorp/workflows/CI/badge.svg)
 
-Fastify secrets plugin for [HashiCorp Vault](https://www.vaultproject.io).
+Fastify secrets plugin for [HashiCorp Vault](https://www.vaultproject.io) ([KV Secrets Engine - Version 1](https://www.vaultproject.io/docs/secrets/kv/kv-v1)).
 
 ## Installation
 
