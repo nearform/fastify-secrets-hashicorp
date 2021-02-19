@@ -9,16 +9,17 @@ const FastifySecretsHashiCorp = require('..')
 
 const SECRET_NAME = uuid.v4()
 const SECRET_CONTENT = uuid.v4()
+const MOUNT_POINT = 'fastify-integration-test'
 const vault = nodeVault()
 
 async function setup() {
-  await vault.mount({ mount_point: 'fastify-integration-test', type: 'kv', options: { version: 1 } })
-  await vault.write(`fastify-integration-test/${SECRET_NAME}`, { value: SECRET_CONTENT, lease: '1s' })
+  await vault.mount({ mount_point: MOUNT_POINT, type: 'kv', options: { version: 1 } })
+  await vault.write(`${MOUNT_POINT}/${SECRET_NAME}`, { value: SECRET_CONTENT, lease: '1s' })
 }
 
 teardown(async () => {
-  await vault.delete(`fastify-integration-test/${SECRET_NAME}`)
-  await vault.unmount({ mount_point: 'fastify-integration-test' })
+  await vault.delete(`${MOUNT_POINT}/${SECRET_NAME}`)
+  await vault.unmount({ mount_point: MOUNT_POINT })
 })
 
 test('integration', async (t) => {
@@ -37,7 +38,7 @@ test('integration', async (t) => {
       vaultOptions: {
         endpoint: 'http://127.0.0.1:8200'
       },
-      mountPoint: 'fastify-integration-test'
+      mountPoint: MOUNT_POINT
     }
   })
 
