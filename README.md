@@ -47,12 +47,12 @@ Following the structure
 
 ```js
 clientOptions: {
-    vaultOptions: {
-      token: '',
-      endpoint: ''
-    },
-    mountPoint, ''
-  }
+  vaultOptions: {
+    token: '',
+    endpoint: ''
+  },
+  mountPoint: ''
+}
 ```
 
 #### clientOptions.mountPoint
