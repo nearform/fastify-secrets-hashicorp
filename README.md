@@ -12,22 +12,30 @@ npm install --save fastify-secrets-hashicorp
 
 ## Usage
 
-### Add plugin to your fastify instance
-
 ```js
+const Fastify = require('fastify')
+const FastifySecretsHashiCorp = require('fastify-secrets-hashicorp')
+
+const fastify = Fastify()
+
+// Add plugin to your fastify instance
 fastify.register(FastifySecretsHashiCorp, {
   secrets: {
     dbPassword: 'secret-name'
+  },
+  clientOptions: {
+    vaultOptions: {
+      token: 'example-token',
+      endpoint: 'http://127.0.0.1:8200'
+    },
+    mountPoint: 'example-mount'
   }
 })
-```
 
-### Access your secrets
-
-```js
-await fastify.ready()
-
-console.log(fastify.secrets.dbPassword) // content of 'secret-name'
+// Access your secrets
+fastify.ready().then(() => {
+  console.log(fastify.secrets.dbPassword) // content of 'example-mount/secret-name'
+})
 ```
 
 ### Plugin options
