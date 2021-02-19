@@ -2,13 +2,13 @@
   "extends": ["standard", "plugin:prettier/recommended"],
   "env": {
     "browser": false,
-    "commonjs": true,
-    "es2021": true
+    "commonjs": true
   },
   "parserOptions": {
-    "ecmaVersion": 12
+    "sourceType": "script"
   },
   "rules": {
+    "strict": "error",
     "import/order": [
       "error",
       {
