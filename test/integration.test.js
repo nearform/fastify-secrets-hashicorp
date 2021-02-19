@@ -5,7 +5,7 @@ const uuid = require('uuid')
 const Fastify = require('fastify')
 const nodeVault = require('node-vault')
 
-const FastifySecretsHashiCorp = require('../lib/fastify-secrets-hashicorp')
+const FastifySecretsHashiCorp = require('..')
 
 const SECRET_NAME = uuid.v4()
 const SECRET_CONTENT = uuid.v4()
