@@ -73,6 +73,29 @@ fastify.register(FastifySecretsHashiCorp, {
 
 The [path to the secrets engine](https://www.vaultproject.io/docs/secrets#secrets-engines-lifecycle). Defaults to 'secret'.
 
+#### clientOptions.useKVv1
+
+If this flag is set to `true`, will read from the Vault using [KV Secrets Engine - Version 1](https://www.vaultproject.io/docs/secrets/kv/kv-v1). Defaults to `false`.
+How to use the plugin with kv-v1:
+
+```js
+fastify.register(FastifySecretsHashiCorp, {
+  secrets: {
+    dbPassword: {
+      name: 'database',
+      key: 'password'
+    }
+  },
+  clientOptions: {
+    vaultOptions: {
+      token: '<TOKEN>',
+      endpoint: 'http://127.0.0.1:8200'
+    },
+    mountPoint: 'myproject',
+    useKVv1: true
+  }
+})
+```
 #### clientOptions.vaultOptions
 
 Initialisation options that are sent to [node-vault](https://github.com/kr1sp1n/node-vault), typed as [VaultOptions](https://github.com/kr1sp1n/node-vault/blob/70097269d35a58bb560b5290190093def96c87b1/index.d.ts#L115-L130).
@@ -85,13 +108,13 @@ The most important being:
 ### Assumptions
 
 - A vault server is running and [has been unsealed](https://www.vaultproject.io/docs/concepts/seal)
-- A secrets engine is available at `secrets/` (or at the provided mountPoint in options) and us using [KV Secrets Engine - Version 1](https://www.vaultproject.io/docs/secrets/kv/kv-v1)
+- A secrets engine is available at `secrets/` (or at the provided mountPoint in options) and us using either [KV Secrets Engine - Version 2](https://www.vaultproject.io/docs/secrets/kv/kv-v2) or [KV Secrets Engine - Version 1](https://www.vaultproject.io/docs/secrets/kv/kv-v1) (with `useKVv1` option set to `true`)
 - clientOptions.vaultOptions.token is provided as an option, or VAULT_TOKEN is available as an environment variable
 - clientOptions.vaultOptions.endpoint is provided as an option, or VAULT_ADDR is available as an environment variable
 
 ### Secrets Engine
 
-We assume that the [kv-v1](https://www.vaultproject.io/docs/secrets/kv/kv-v1) secrets engine is being used. If vault is started in dev mode (`vault server -dev`) it defaults to the kv-v2 engine, mounted at `secrets/`. In order to use the dev server, we need to remove it and mount a kv-v1 secrets provider instead:
+We assume that the [kv-v2](https://www.vaultproject.io/docs/secrets/kv/kv-v2) secrets engine is being used. If vault is started in dev mode (`vault server -dev`) it defaults to the kv-v2 engine, mounted at `secrets/`. In order to use the dev server, with kv-v1, you need to remove it and mount a kv-v1 secrets provider instead:
 
 ```sh
 VAULT_ADDR='http://127.0.0.1:8200' vault secrets disable secret
