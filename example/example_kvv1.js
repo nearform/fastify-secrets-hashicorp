@@ -1,5 +1,5 @@
 const Fastify = require('fastify')
-const FastifySecretsHashiCorp = require('./lib/fastify-secrets-hashicorp')
+const FastifySecretsHashiCorp = require('../lib/fastify-secrets-hashicorp')
 
 const fastify = Fastify()
 
@@ -13,11 +13,11 @@ fastify.register(FastifySecretsHashiCorp, {
   },
   clientOptions: {
     vaultOptions: {
-      token: 's.rLqBXimaNwQMuJ3gcXGEsDgx',
+      token: '<TOKEN>', // change this to your token
       endpoint: 'http://127.0.0.1:8200'
     },
-    mountPoint: 'secret',
-    useKVv1: false
+    mountPoint: 'myproject',
+    useKVv1: true
   }
 })
 
