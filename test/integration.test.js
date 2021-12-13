@@ -23,11 +23,11 @@ const vault = nodeVault()
 async function setup(version) {
   await vault.mount({ mount_point: MOUNT_POINT[version], type: 'kv', options: { version: VERSIONS[version] } })
 
-  let path = `${MOUNT_POINT[version]}/${SECRET_NAME}`
+  let path = `${MOUNT_POINT.V1}/${SECRET_NAME}`
   let data = { [SECRET_KEY]: SECRET_CONTENT }
 
   if (version === 'V2') {
-    path = `${MOUNT_POINT[version]}/data/${SECRET_NAME}`
+    path = `${MOUNT_POINT.V2}/data/${SECRET_NAME}`
     data = { data: { [SECRET_KEY]: SECRET_CONTENT } }
   }
 
