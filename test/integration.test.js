@@ -3,7 +3,7 @@
 const { test, teardown } = require('tap')
 const uuid = require('uuid')
 const Fastify = require('fastify')
-const nodeVault = require('node-vault')
+const nodeVault = require('./../../node-vault/src/index')
 
 const FastifySecretsHashiCorp = require('..')
 
@@ -42,7 +42,8 @@ test('integration', async (t) => {
       vaultOptions: {
         endpoint: 'http://127.0.0.1:8200'
       },
-      mountPoint: MOUNT_POINT
+      mountPoint: MOUNT_POINT,
+      useKVv1: true,
     }
   })
 
