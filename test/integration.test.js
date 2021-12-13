@@ -3,7 +3,7 @@
 const { test, teardown } = require('tap')
 const uuid = require('uuid')
 const Fastify = require('fastify')
-const nodeVault = require('./../../node-vault/src/index')
+const nodeVault = require('node-vault')
 
 const FastifySecretsHashiCorp = require('..')
 
@@ -25,7 +25,7 @@ async function setup(version) {
 
   let path = `${MOUNT_POINT[version]}/${SECRET_NAME}`
   let data = { [SECRET_KEY]: SECRET_CONTENT }
-  
+
   if (version === 'V2') {
     path = `${MOUNT_POINT[version]}/data/${SECRET_NAME}`
     data = { data: { [SECRET_KEY]: SECRET_CONTENT } }
