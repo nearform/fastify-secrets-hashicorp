@@ -27,14 +27,16 @@ test('get', (t) => {
     const client = new HashiCorpClient({ mountPoint: 'unit-test-secrets' })
     read.resolves({
       data: {
-        value: 'secret payload'
+        data: {
+          value: 'secret payload'
+        }
       }
     })
 
     const secret = await client.get({ name: 'name', key: 'value' })
 
     t.ok(read.called, 'calls read')
-    t.ok(read.calledWith('unit-test-secrets/name'), 'provides name to read')
+    t.ok(read.calledWith('unit-test-secrets/data/name'), 'provides name to read')
     t.equal(secret, 'secret payload', 'extracts SecretString')
   })
 
