@@ -1,6 +1,6 @@
 {
   "name": "fastify-secrets-hashicorp",
-  "version": "1.1.1",
+  "version": "2.0.0",
   "description": "Fastify secrets plugin for HashiCorp Vault",
   "main": "lib/fastify-secrets-hashicorp.js",
   "scripts": {
