@@ -72,7 +72,7 @@ test('integration v1', async (t) => {
 
   await fastify.ready()
 
-  t.same(
+  t.has(
     fastify.secrets,
     {
       test: SECRET_CONTENT
@@ -106,7 +106,7 @@ test('integration v2', async (t) => {
 
   await fastify.ready()
 
-  t.same(
+  t.has(
     fastify.secrets,
     {
       test: SECRET_CONTENT
