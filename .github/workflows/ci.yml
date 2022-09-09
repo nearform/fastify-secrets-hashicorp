@@ -1,19 +1,23 @@
 name: ci
-on: [push, pull_request]
+on:
+  - push
+  - pull_request
 jobs:
   build:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [14, 16]
+        node-version:
+          - 14
+          - 16
     services:
       vault:
         image: vault:1.6.2
-        env: 
+        env:
           SKIP_SETCAP: true
           VAULT_DEV_ROOT_TOKEN_ID: mytoken
         ports:
-        - 8200:8200
+          - 8200:8200
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -21,10 +25,9 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: npm install
       - run: npm run lint
-      - env: 
+      - env:
           VAULT_TOKEN: mytoken
         run: npm run test:ci
-
   automerge:
     needs: build
     runs-on: ubuntu-latest
@@ -33,5 +36,3 @@ jobs:
       contents: write
     steps:
       - uses: fastify/github-action-merge-dependabot@v3
-        with:
-          github-token: ${{ secrets.github_token }}
