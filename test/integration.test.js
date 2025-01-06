@@ -1,6 +1,7 @@
 'use strict'
 
-const { test, teardown } = require('tap')
+const { test, after } = require('node:test')
+
 const uuid = require('uuid')
 const Fastify = require('fastify')
 const nodeVault = require('node-vault')
@@ -41,7 +42,7 @@ async function cleanup(version) {
   await vault.unmount({ mount_point: MOUNT_POINT[version] })
 }
 
-teardown(async () => {
+after(async () => {
   await cleanup('V1')
   await cleanup('V2')
 })
@@ -72,13 +73,7 @@ test('integration v1', async (t) => {
 
   await fastify.ready()
 
-  t.has(
-    fastify.secrets,
-    {
-      test: SECRET_CONTENT
-    },
-    'decorates fastify with secret content'
-  )
+  t.assert.deepStrictEqual(fastify.secrets.test, SECRET_CONTENT, 'decorates fastify with secret content')
 })
 
 test('integration v2', async (t) => {
@@ -106,11 +101,5 @@ test('integration v2', async (t) => {
 
   await fastify.ready()
 
-  t.has(
-    fastify.secrets,
-    {
-      test: SECRET_CONTENT
-    },
-    'decorates fastify with secret content'
-  )
+  t.assert.deepStrictEqual(fastify.secrets.test, SECRET_CONTENT, 'decorates fastify with secret content')
 })
