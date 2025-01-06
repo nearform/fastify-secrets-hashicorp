@@ -2,21 +2,18 @@
 
 const { test, beforeEach } = require('node:test')
 
-const sinon = require('sinon')
 const proxyquire = require('proxyquire')
 
 class Stub {
   read() {}
 }
 
-const read = sinon.stub(Stub.prototype, 'read')
-
 const HashiCorpClient = proxyquire('../lib/client', {
   'node-vault': () => new Stub()
 })
 
 beforeEach(async () => {
-  read.resolves()
+  Stub.prototype.read = Promise.resolve()
 })
 
 test('get', async (t) => {
@@ -26,26 +23,32 @@ test('get', async (t) => {
     t.plan(3)
 
     const client = new HashiCorpClient({ mountPoint: 'unit-test-secrets' })
-    read.resolves({
-      data: {
+    Stub.prototype.read = t.mock.fn(() =>
+      Promise.resolve({
         data: {
-          value: 'secret payload'
+          data: {
+            value: 'secret payload'
+          }
         }
-      }
-    })
+      })
+    )
 
     const secret = await client.get({ name: 'name', key: 'value' })
 
-    t.assert.ok(read.called, 'calls read')
-    t.assert.ok(read.calledWith('unit-test-secrets/data/name'), 'provides name to read')
-    t.assert.equal(secret, 'secret payload', 'extracts SecretString')
+    t.assert.ok(Stub.prototype.read.mock.callCount(), 'calls read')
+    t.assert.deepStrictEqual(
+      Stub.prototype.read.mock.calls[0].arguments[0],
+      'unit-test-secrets/data/name',
+      'provides name to read'
+    )
+    t.assert.deepStrictEqual(secret, 'secret payload', 'extracts SecretString')
   })
 
   await t.test('sdk error', async (t) => {
     t.plan(1)
     const client = new HashiCorpClient()
 
-    read.rejects(new Error())
+    Stub.prototype.read = t.mock.fn(() => Promise.reject(new Error()))
 
     const promise = client.get('unit-test-secrets/name')
 
