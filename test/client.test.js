@@ -1,6 +1,7 @@
 'use strict'
 
-const { test, beforeEach } = require('tap')
+const { test, beforeEach } = require('node:test')
+
 const sinon = require('sinon')
 const proxyquire = require('proxyquire')
 
@@ -18,10 +19,10 @@ beforeEach(async () => {
   read.resolves()
 })
 
-test('get', (t) => {
+test('get', async (t) => {
   t.plan(2)
 
-  t.test('read', async (t) => {
+  await t.test('read', async (t) => {
     t.plan(3)
 
     const client = new HashiCorpClient({ mountPoint: 'unit-test-secrets' })
@@ -35,12 +36,12 @@ test('get', (t) => {
 
     const secret = await client.get({ name: 'name', key: 'value' })
 
-    t.ok(read.called, 'calls read')
-    t.ok(read.calledWith('unit-test-secrets/data/name'), 'provides name to read')
-    t.equal(secret, 'secret payload', 'extracts SecretString')
+    t.assert.ok(read.called, 'calls read')
+    t.assert.ok(read.calledWith('unit-test-secrets/data/name'), 'provides name to read')
+    t.assert.equal(secret, 'secret payload', 'extracts SecretString')
   })
 
-  t.test('sdk error', async (t) => {
+  await t.test('sdk error', async (t) => {
     t.plan(1)
     const client = new HashiCorpClient()
 
@@ -48,6 +49,6 @@ test('get', (t) => {
 
     const promise = client.get('unit-test-secrets/name')
 
-    await t.rejects(promise, 'throws error')
+    await t.assert.rejects(promise, 'throws error')
   })
 })
