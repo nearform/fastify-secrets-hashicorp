@@ -1,16 +1,16 @@
 'use strict'
 
 const { test, after } = require('node:test')
+const { randomUUID } = require('node:crypto')
 
-const uuid = require('uuid')
 const Fastify = require('fastify')
 const nodeVault = require('node-vault')
 
 const FastifySecretsHashiCorp = require('..')
 
 const SECRET_KEY = 'exampleKey'
-const SECRET_NAME = uuid.v4()
-const SECRET_CONTENT = uuid.v4()
+const SECRET_NAME = randomUUID()
+const SECRET_CONTENT = randomUUID()
 const MOUNT_POINT = {
   V1: 'fastify-integration-test_v1',
   V2: 'fastify-integration-test_v2'
