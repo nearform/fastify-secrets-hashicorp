@@ -10,9 +10,8 @@ jobs:
     strategy:
       matrix:
         node-version:
-          - 14
-          - 16
-          - 18
+          - 20
+          - 22
     services:
       vault:
         image: vault:1.6.2
@@ -30,7 +29,7 @@ jobs:
       - run: npm run lint
       - env:
           VAULT_TOKEN: mytoken
-        run: npm run test:ci
+        run: npm run test
   automerge:
     needs: build
     runs-on: ubuntu-latest
