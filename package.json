@@ -40,7 +40,7 @@
     "eslint-plugin-promise": "^7.2.1",
     "fastify": "^5.2.1",
     "husky": "^9.1.7",
-    "lint-staged": "^15.3.0",
+    "lint-staged": "^16.0.0",
     "prettier": "^3.4.2",
     "proxyquire": "^2.1.3"
   },
