@@ -56,7 +56,7 @@
     }
   },
   "dependencies": {
-    "fastify-secrets-core": "^3.0.0",
+    "fastify-secrets-core": "^4.0.0",
     "node-vault": "^0.10.2"
   },
   "directories": {
