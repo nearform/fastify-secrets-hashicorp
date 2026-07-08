@@ -41,6 +41,60 @@ fastify.ready().then(() => {
 })
 ```
 
+### TypeScript
+
+The package ships TypeScript declarations via `types/index.d.ts`. The same
+example as a `.ts` file:
+
+```ts
+import Fastify from 'fastify'
+import fastifySecretsHashiCorp from 'fastify-secrets-hashicorp'
+
+const fastify = Fastify()
+
+fastify.register(fastifySecretsHashiCorp, {
+  secrets: {
+    dbPassword: {
+      name: 'secret-name',
+      key: 'value'
+    }
+  },
+  clientOptions: {
+    vaultOptions: {
+      token: 'example-token',
+      endpoint: 'http://127.0.0.1:8200'
+    },
+    mountPoint: 'example-mount'
+  }
+})
+
+await fastify.ready()
+// fastify.secrets is typed as Record<string, string | undefined>
+console.log(fastify.secrets.dbPassword)
+```
+
+If you want the captured secret keys to be enumerable at runtime (e.g. for
+introspection in tooling or tests), use the factory export. It returns a
+plugin with the captured keys attached on the `kInferred` symbol:
+
+```ts
+import { createHashiCorpSecretsPlugin, kInferred } from 'fastify-secrets-hashicorp'
+
+const plugin = createHashiCorpSecretsPlugin({
+  secrets: {
+    dbPassword: { name: 'secret-name', key: 'value' }
+  }
+})
+
+console.log(Object.keys(plugin[kInferred] ?? {})) // ['dbPassword']
+
+fastify.register(plugin)
+```
+
+Note: `fastify.secrets` is typed as `Record<string, string | undefined>` from
+a module augmentation — it is not narrowed to the literal keys from the
+factory. Narrowing that would require a Fastify-side typing change.
+
 ### Plugin options
 
 Assuming a secret has been written [using the vault CLI](https://www.vaultproject.io/docs/commands/write#examples) like this:
