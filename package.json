@@ -29,7 +29,7 @@
   },
   "homepage": "https://github.com/nearform/fastify-secrets-hashicorp#readme",
   "engines": {
-    "node": ">= 20"
+    "node": ">= 22"
   },
   "devDependencies": {
     "c8": "^11.0.0",
