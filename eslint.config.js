@@ -1,7 +1,7 @@
 const globals = require('globals')
 const js = require('@eslint/js')
 const prettierRecommended = require('eslint-plugin-prettier/recommended')
-const importPlugin = require('eslint-plugin-import')
+const importPlugin = require('eslint-plugin-import-x')
 
 module.exports = [
     js.configs.recommended,
@@ -23,7 +23,7 @@ module.exports = [
             sourceType: 'module',
         },
         rules: {
-            "import/order": [
+            "import-x/order": [
                 "error",
                 {
                     "newlines-between": "always"
