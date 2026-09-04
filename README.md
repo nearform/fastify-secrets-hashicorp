@@ -41,6 +41,70 @@ fastify.ready().then(() => {
 })
 ```
 
+### TypeScript
+
+The package ships TypeScript declarations via `types/index.d.ts`. The same
+example as a `.ts` file:
+
+```ts
+import Fastify from 'fastify'
+import fastifySecretsHashiCorp from 'fastify-secrets-hashicorp'
+
+const fastify = Fastify()
+
+fastify.register(fastifySecretsHashiCorp, {
+  secrets: {
+    dbPassword: {
+      name: 'secret-name',
+      key: 'value'
+    }
+  },
+  clientOptions: {
+    vaultOptions: {
+      token: 'example-token',
+      endpoint: 'http://127.0.0.1:8200'
+    },
+    mountPoint: 'example-mount'
+  }
+})
+
+await fastify.ready()
+const dbPassword = fastify.secrets.dbPassword
+if (typeof dbPassword === 'string') {
+  console.log(dbPassword)
+}
+
+// The default refresh method is known, but optional because registrations can
+// place it under a namespace or rename it with refreshAlias.
+await fastify.secrets.refresh?.()
+```
+
+If you want the captured secret keys to be enumerable at runtime (e.g. for
+introspection in tooling or tests), use the factory export. It returns a
+plugin with the captured keys attached on the `kInferred` symbol:
+
+```ts
+import { createHashiCorpSecretsPlugin, kInferred } from 'fastify-secrets-hashicorp'
+
+const plugin = createHashiCorpSecretsPlugin({
+  secrets: {
+    dbPassword: { name: 'secret-name', key: 'value' }
+  }
+})
+
+console.log(Object.keys(plugin[kInferred])) // ['dbPassword']
+
+fastify.register(plugin)
+await fastify.ready()
+```
+
+The factory captures the complete options object, so do not pass a second
+options object to `register()`. `fastify.secrets` uses a dynamic module
+augmentation that represents string values, refresh functions, and namespaced
+containers. It cannot narrow dynamic keys to the factory's literal secret or
+namespace names because Fastify's `register()` returns the same
+`FastifyInstance` type.
+
 ### Plugin options
 
 Assuming a secret has been written [using the vault CLI](https://www.vaultproject.io/docs/commands/write#examples) like this:
@@ -96,6 +160,7 @@ fastify.register(FastifySecretsHashiCorp, {
   }
 })
 ```
+
 #### clientOptions.vaultOptions
 
 Initialisation options that are sent to [node-vault](https://github.com/kr1sp1n/node-vault), typed as [VaultOptions](https://github.com/kr1sp1n/node-vault/blob/70097269d35a58bb560b5290190093def96c87b1/index.d.ts#L115-L130).
