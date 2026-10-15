@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "module": "CommonJS",
+    "moduleResolution": "Node",
+    "noEmit": true,
+    "strict": true,
+    "target": "ES2022",
+    "verbatimModuleSyntax": false
+  },
+  "include": ["types/**/*.ts"]
+}
